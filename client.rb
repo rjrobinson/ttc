@@ -17,13 +17,13 @@ conn = Bunny.new(
 conn.start
 
 ch  = conn.create_channel
-x   = ch.topic('rjrobinson')
+x   = ch.direct('amq', durable: true)
 q   = ch.queue('rjrobinson')
 
 q.bind(x, routing_key: 'formula')
 
 puts " [x] Waiting for data. To exit press CTRL+C"
-
+binding.pry
 begin
   q.subscribe(block: true) do |delivery_info, properties, body|
     p " [x] #{delivery_info.routing_key}:#{body}"
