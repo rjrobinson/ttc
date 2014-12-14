@@ -21,32 +21,23 @@ x   = ch.direct("amq.topic", durable: true)
 q   = ch.queue("rjrobinson")
 q.bind(x, routing_key: "formula")
 
-ch.prefetch(1)
-
 puts " [x] Waiting for data. To exit press CTRL+C"
-finish = Time.now + 5 * 60
 
-while Time.now < finish
 begin
-  n = 0
   q.subscribe(block: true, manual_ack: true) do |delivery_info, properties, body|
     response = JSON.parse(body)
     solution = eval(response['formula'])
 
-    send =[
-    response['uuid'],
-    response['contestant_uuid'] = "86ac3491-8257-11e4-9f42-0242ac110016",
-    response['formula'],
-    solution
-    ].to_json
-
+    send ={
+      'uuid' => response['uuid'],
+      'contestant_uuid'=> "86ac3491-8257-11e4-9f42-0242ac110016",
+      "formula" => response['formula'],
+      "solution" => solution
+    }.to_json
+    p send
     x.publish(send, routing_key:'formula_solution')
-    n =+ 1
-    p n
-    binding.pry
   end
 rescue Interrupt => _
   ch.close
   conn.close
-end
 end
