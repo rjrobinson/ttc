@@ -1,7 +1,8 @@
 require 'pry'
+beginning_time = Time.now
 
-mathstring = "100 + 100 - 100 + 100 + 100"
 
+mathstring = '123 + 76 - 8 - 180 + 34'
 
 def get_answer(string)
   elements = string.split(' ')
@@ -22,3 +23,9 @@ def get_answer(string)
   end
   return answer
 end
+
+1_000_000.times {get_answer(mathstring)}
+
+
+end_time = Time.now
+puts "Time elapsed #{(end_time - beginning_time)*1000} milliseconds"
