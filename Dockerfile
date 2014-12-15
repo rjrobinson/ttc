@@ -9,8 +9,11 @@ rm -rf /var/lib/apt/lists/*
 
 RUN gem install bundler
 
+ADD client.rb /
+ADD Gemfile /
+
 # Define working directory.
-WORKDIR /data
+WORKDIR /
 
 # Define default command.
-CMD ruby client.rb
+CMD bundle install && ruby client.rb
