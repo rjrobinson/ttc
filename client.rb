@@ -1,5 +1,4 @@
 require 'bunny'
-require 'pry'
 require 'json'
 
 user = 'admin'

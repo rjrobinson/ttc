@@ -1,4 +1,3 @@
-require 'pry'
 beginning_time = Time.now
 
 
